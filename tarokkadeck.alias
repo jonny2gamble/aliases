@@ -1,6 +1,6 @@
 embed
 <drac2>
-g=get_gvar("06e491ee-1143-47fd-9ed6-2a1c3bfe9062")
+g={get_gvar("06e491ee-1143-47fd-9ed6-2a1c3bfe9062")}
 d="tarokkadeck"
 a,n,q,eq="&*&",'\n','"','\\\"'
 setup="set".lower() in a
@@ -18,13 +18,15 @@ if setup:
  deck.append(size)
 cardName=randchoice(deck[:-1]) if draw else ""
 card=g[cardName] if cardName else {}
-deck.remove(cardName)
+if cardName != "":
+ deck.remove(cardName)
 numcards=len(deck)-1
 if deck:
  character().set_cvar(d,dump_json(deck))
+return cardName
 </drac2>
 -title "<name> {{f"draws a card from a {size} card Tarokka Deck {f'with {numcards} cards remaining in the deck ' if numcards!=size else ''}- {card.name}" if draw else f"sets up their Tarokka Deck as a {size} card deck" if setup else "needs help with their Tarokka Deck"}}!"
--desc "{{"" if draw else f"Start drawing with `{ctx.prefix+ctx.alias} draw`" if setup else f'''Use `{ctx.prefix+ctx.alias} setup` or `{ctx.prefix+ctx.alias} reset` to set up or reset the deck, include `full` to make it a 22 card deck or leave it off for a 13 card deck.\n\nOnce your deck is set up, run `{ctx.prefix+ctx.alias} draw` to draw a card from the deck." if deck else ""}'''}}"
+-desc "{{f"Start drawing with `{ctx.prefix+ctx.alias} draw`" if setup else f'''Use `{ctx.prefix+ctx.alias} setup` or `{ctx.prefix+ctx.alias} reset` to set up or reset the deck, include `full` to make it a 22 card deck or leave it off for a 13 card deck.\n\nOnce your deck is set up, run `{ctx.prefix+ctx.alias} draw` to draw a card from the deck.''' if deck else ""}}"
 {{f'-image http://i.imgur.com/{card.image}.png' if card else ''}}
 -footer "Tarokka Deck | {{f'{ctx.prefix+ctx.alias} setup [full]- Sets up the deck.' if not deck else f'{ctx.prefix+ctx.alias} draw - Draw a Card.'}}"
 -color 000050
